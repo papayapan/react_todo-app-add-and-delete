@@ -7,7 +7,6 @@ export const getTodos = () => {
   return client.get<Todo[]>(`/todos?userId=${USER_ID}`);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const postTodos = async (data: any) => {
   try {
     const response = await client.post<Todo>('/todos', {
@@ -17,7 +16,13 @@ export const postTodos = async (data: any) => {
 
     return response;
   } catch (error) {
+
+    console.error('Error posting todo:', error);
     throw error;
   }
 };
-// Add more methods here
+
+export const deleteTodo = (id: number) => {
+  return client.delete(`/todos/${id}`);
+};
+
