@@ -4,13 +4,13 @@ import { Todo } from '../../types/Todo';
 
 interface TodoItemProps {
   todo: Todo;
-  TodoDeleteButton: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleDeleteTodo: (e: React.MouseEvent<HTMLButtonElement>) => void;
   loadingTodoId: number | null;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({
   todo,
-  TodoDeleteButton,
+  handleDeleteTodo,
   loadingTodoId,
 }) => {
   return (
@@ -34,7 +34,7 @@ const TodoItem: React.FC<TodoItemProps> = ({
         type="button"
         className="todo__remove"
         data-cy="TodoDelete"
-        onClick={TodoDeleteButton}
+        onClick={handleDeleteTodo}
         value={todo.id}
       >
         ×

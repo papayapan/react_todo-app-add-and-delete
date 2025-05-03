@@ -1,14 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable curly */
-/* eslint-disable react-hooks/rules-of-hooks */
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// /* eslint-disable @typescript-eslint/naming-convention */
-// /* eslint-disable jsx-a11y/label-has-associated-control */
-// /* eslint-disable react-hooks/rules-of-hooks */
-// /* eslint-disable curly */
-// /* eslint-disable max-len */
-// /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
 import { deleteTodo, getTodos, postTodos, USER_ID } from './api/todos';
@@ -17,22 +6,22 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import TodoList from './components/TodoList/TodoList';
+import { FilterType } from './types/FilterType';
 
-type FilteringToDo = 'all' | 'active' | 'completed';
+type TempTodo = {
+  id: number;
+  title: string;
+  completed: boolean;
+};
 
 export const App: React.FC = () => {
-  if (!USER_ID) {
-    return <UserWarning />;
-  }
-
   const [todos, setTodos] = useState<Todo[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [filter, setFilter] = useState<FilteringToDo>('all');
+  const [filter, setFilter] = useState<FilterType>(FilterType.All);
   const [todoInput, setTodoInput] = useState<string>('');
   const [disableInput, setDisableInput] = useState<boolean>(false);
-  const [tempTodo, setTempTodo] = useState<any | null>(null);
+  const [tempTodo, setTempTodo] = useState<TempTodo | null>(null);
   const [loadingTodoId, setLoadingTodoId] = useState<number | null>(null);
-  // const [loadingTodo, setloadingTodo] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -60,11 +49,20 @@ export const App: React.FC = () => {
   const activeTodos = todos.filter(todo => !todo.completed).length;
 
   const filteredTodos = todos.filter(todo => {
-    if (filter === 'active') return !todo.completed;
-    if (filter === 'completed') return todo.completed;
+    if (filter === 'active') {
+      return !todo.completed;
+    }
+
+    if (filter === 'completed') {
+      return todo.completed;
+    }
 
     return true;
   });
+
+  if (!USER_ID) {
+    return <UserWarning />;
+  }
 
   const addTodos = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,7 +101,7 @@ export const App: React.FC = () => {
     }
   };
 
-  const TodoDeleteButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDeleteTodo = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.target as HTMLButtonElement;
     const idCurrent = Number(target.getAttribute('value'));
 
@@ -176,7 +174,7 @@ export const App: React.FC = () => {
           <TodoList
             filteredTodos={filteredTodos}
             tempTodo={tempTodo}
-            TodoDeleteButton={TodoDeleteButton}
+            handleDeleteTodo={handleDeleteTodo}
             loadingTodoId={loadingTodoId}
           />
         )}

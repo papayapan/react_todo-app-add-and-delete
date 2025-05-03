@@ -16,8 +16,6 @@ export const postTodos = async (data: any) => {
 
     return response;
   } catch (error) {
-
-    console.error('Error posting todo:', error);
     throw error;
   }
 };
@@ -25,4 +23,4 @@ export const postTodos = async (data: any) => {
 export const deleteTodo = (id: number) => {
   return client.delete(`/todos/${id}`);
 };
-
+// Add more methods here

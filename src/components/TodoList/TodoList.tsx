@@ -33,13 +33,13 @@ import { Todo } from '../../types/Todo';
 interface TodoListProps {
   filteredTodos: Todo[];
   tempTodo: { id: number; title: string; completed: boolean } | null;
-  TodoDeleteButton: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleDeleteTodo: (e: React.MouseEvent<HTMLButtonElement>) => void;
   loadingTodoId: number | null;
 }
 const TodoList: React.FC<TodoListProps> = ({
   filteredTodos,
   tempTodo,
-  TodoDeleteButton,
+  handleDeleteTodo,
   loadingTodoId,
 }) => {
   return (
@@ -48,7 +48,7 @@ const TodoList: React.FC<TodoListProps> = ({
         <TodoItem
           key={todo.id}
           todo={todo}
-          TodoDeleteButton={TodoDeleteButton}
+          handleDeleteTodo={handleDeleteTodo}
           loadingTodoId={loadingTodoId}
         />
       ))}
