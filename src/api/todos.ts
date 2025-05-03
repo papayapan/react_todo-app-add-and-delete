@@ -7,7 +7,7 @@ export const getTodos = () => {
   return client.get<Todo[]>(`/todos?userId=${USER_ID}`);
 };
 
-export const postTodos = async (data: any) => {
+export const postTodos = async (data: Todo) => {
   try {
     const response = await client.post<Todo>('/todos', {
       ...data,
