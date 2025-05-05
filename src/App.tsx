@@ -49,15 +49,15 @@ export const App: React.FC = () => {
   const activeTodos = todos.filter(todo => !todo.completed).length;
 
   const filteredTodos = todos.filter(todo => {
-    if (filter === 'active') {
-      return !todo.completed;
+    switch (filter) {
+      case FilterType.Active:
+        return !todo.completed;
+      case FilterType.Completed:
+        return todo.completed;
+      case FilterType.All:
+      default:
+        return true;
     }
-
-    if (filter === 'completed') {
-      return todo.completed;
-    }
-
-    return true;
   });
 
   if (!USER_ID) {

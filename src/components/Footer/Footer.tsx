@@ -1,6 +1,7 @@
 import React from 'react';
 import { Todo } from '../../types/Todo';
 import { FilterType } from '../../types/FilterType';
+import classNames from 'classnames';
 
 interface FooterProps {
   activeTodos: number;
@@ -17,10 +18,12 @@ const Footer: React.FC<FooterProps> = ({
   todos,
   clearCompleted,
 }) => {
+  const itemText = activeTodos === 1 ? 'item' : 'items';
+
   return (
     <footer className="todoapp__footer" data-cy="Footer">
       <span className="todo-count" data-cy="TodosCounter">
-        {activeTodos} {activeTodos === 1 ? 'item' : 'items'} left
+        {activeTodos} {itemText} left
       </span>
 
       <nav className="filter" data-cy="Filter">
@@ -28,7 +31,9 @@ const Footer: React.FC<FooterProps> = ({
           <a
             key={type}
             href={`#/${type === FilterType.All ? '' : type}`}
-            className={`filter__link ${filter === type ? 'selected' : ''}`}
+            className={classNames('filter__link', {
+              selected: filter === type,
+            })}
             data-cy={`FilterLink${type.charAt(0).toUpperCase() + type.slice(1)}`}
             onClick={() => setFilter(type)}
           >
